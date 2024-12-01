@@ -2,13 +2,20 @@
 import argparse
 import json
 
+
 def main():
-    parser = argparse.ArgumentParser(prog='gendiff', description='Compares two configuration files and shows a difference.')
+    parser = argparse.ArgumentParser(prog='gendiff',
+                                     description='Compares two '
+                                                 'configuration files '
+                                                 'and shows '
+                                                 'a difference.')
     parser.add_argument('first_file')
     parser.add_argument('second_file')
-    parser.add_argument('-f','--format', help='set format of output')
+    parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
-    generate_diff(args.first_file, args.second_file)
+    one_diff = generate_diff(args.first_file, args.second_file)
+    print(one_diff)
+
 
 def generate_diff(file1, file2):
     file1 = json.load(open(file1))
@@ -28,9 +35,7 @@ def generate_diff(file1, file2):
             res.append(f" - {key}: {value1}")
         elif key in file2:
             res.append(f" + {key}: {value2}")
-    result = "{\n" + "\n".join(res) + "\n}"
-    print(result)
-
+    return "{\n" + "\n".join(res) + "\n}"
 
 
 if __name__ == '__main__':
